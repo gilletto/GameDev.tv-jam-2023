@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float _speed = 100f;
     [SerializeField] float _jumpForce = 10f;
+    [SerializeField] float _maxFallHeight;
     [SerializeField] GameObject _humanShape;
     [SerializeField] GameObject _ghostShape;
     [SerializeField] int _life_essence;
@@ -23,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Boolean _facingRight;
     private Boolean _isJumping;
     private Boolean _isFalling;
-    private float maxFallHeight;
+    private float _currentFallHeight;
 
     // Start is called before the first frame update
     void Start()
@@ -54,9 +55,9 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (_isJumping || _isFalling)
             {
-                if(_rb.velocity.y < maxFallHeight)
+                if(_rb.velocity.y < _currentFallHeight)
                 {
-                    maxFallHeight = _rb.velocity.y;
+                    _currentFallHeight = _rb.velocity.y;
                 }
                 
             }
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space) && !_isJumping)
             {
                 _isJumping = true;
-                maxFallHeight = 0;
+                _currentFallHeight = 0;
                 _rb.velocity = Vector2.up * _jumpForce;
             }
 
@@ -116,9 +117,9 @@ public class PlayerMovement : MonoBehaviour
             Destroy(collision.gameObject);
         }else if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("maxFallHeight " + maxFallHeight);
+            Debug.Log("maxFallHeight " + _currentFallHeight);
 
-            if (maxFallHeight < -20)
+            if (_currentFallHeight < -_maxFallHeight)
             {
                 ChangeDimension("ghost");
             }

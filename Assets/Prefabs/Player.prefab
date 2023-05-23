@@ -280,7 +280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 10
-  _jumpForce: 10
+  _jumpForce: 5
+  _maxFallHeight: 10
   _humanShape: {fileID: 2972913704794481131}
   _ghostShape: {fileID: 2972913703416898164}
   _life_essence: 0
