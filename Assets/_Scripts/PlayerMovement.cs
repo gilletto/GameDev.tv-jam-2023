@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("enter trigger");
-        if (collision.gameObject.CompareTag("LifeEssence"))
+        if (collision.gameObject.CompareTag("LifeEssence") && _shapeType == DimensionType.Ghost)
         {
             _life_essence++;
             Destroy(collision.gameObject);
