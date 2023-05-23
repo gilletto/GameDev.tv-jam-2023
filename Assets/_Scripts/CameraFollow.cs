@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _offset = new Vector3(_player.position.x , _player.position.y, transform.position.z);
+        _offset = new Vector3(0 , 0, transform.position.z);
     }
 
     private void LateUpdate()
