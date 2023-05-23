@@ -13,38 +13,87 @@ public class PlayerMovement : MonoBehaviour
 {
 
     [SerializeField] float _speed = 100f;
+    [SerializeField] float _jumpForce = 10f;
     [SerializeField] GameObject _humanShape;
     [SerializeField] GameObject _ghostShape;
     [SerializeField] int _life_essence;
     private DimensionType _shapeType;
     private Rigidbody2D _rb;
     private Vector2 _movement;
+    private Boolean _facingRight;
+    private Boolean _isJumping;
+    private Boolean _isFalling;
+    private float maxFallHeight;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _life_essence = 0;
+        _facingRight = true;
+        _isJumping = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(_shapeType == DimensionType.Human)
+
+
+        float movX = Input.GetAxisRaw("Horizontal");
+        if (_shapeType == DimensionType.Human)
         {
-            _movement = new Vector2(Input.GetAxisRaw("Horizontal") * _speed, _rb.velocity.y);
-            if (Input.GetKeyDown(KeyCode.Space))
+
+
+            _isFalling = _rb.velocity.y < 0;
+            
+            if(_isJumping && _rb.velocity.y == 0)
             {
-                _movement = new Vector2(_rb.velocity.x, 3);
+                _isJumping = false;
+
             }
+            else if (_isJumping || _isFalling)
+            {
+                if(_rb.velocity.y < maxFallHeight)
+                {
+                    maxFallHeight = _rb.velocity.y;
+                }
+                
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && !_isJumping)
+            {
+                _isJumping = true;
+                maxFallHeight = 0;
+                _rb.velocity = Vector2.up * _jumpForce;
+            }
+
+            _movement = new Vector2(movX * _speed, _rb.velocity.y);
+
         }
         else
         {
-            _movement = new Vector2(Input.GetAxisRaw("Horizontal") * _speed, Input.GetAxisRaw("Vertical") * _speed);
+            _movement = new Vector2(movX * _speed, Input.GetAxisRaw("Vertical") * _speed);
         }
       
-        
+        if(!_facingRight && movX > 0)
+        {
+            _facingRight = !_facingRight;
+            Flip();
+        }
+        else if(_facingRight && movX < 0)
+        {
+            _facingRight = !_facingRight;
+            Flip();
+            
+        }
+    }
+
+    private void Flip()
+    {
+        Vector3 newScale = transform.localScale;
+        newScale.x *= -1;
+        transform.localScale = newScale;
     }
 
     private void FixedUpdate()
@@ -57,20 +106,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("enter collision");
+        Debug.Log("Player onEnterCollision");
         if (collision.gameObject.CompareTag("Trap"))
         {
             ChangeDimension("ghost");
+
         }else if (collision.gameObject.CompareTag("Key"))
         {
             Destroy(collision.gameObject);
+        }else if (collision.gameObject.CompareTag("Ground"))
+        {
+            Debug.Log("maxFallHeight " + maxFallHeight);
+
+            if (maxFallHeight < -20)
+            {
+                ChangeDimension("ghost");
+            }
+
+            
         }
         
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("enter trigger");
+        Debug.Log("Player onEnterTrigger");
         if (collision.gameObject.CompareTag("LifeEssence") && _shapeType == DimensionType.Ghost)
         {
             _life_essence++;
