@@ -73,3 +73,5 @@ crashlytics-build.properties
 ProjectSettings/ProjectSettings.asset
 Packages/packages-lock.json
 Packages/manifest.json
+Packages/packages-lock.json
+Packages/packages-lock.json
