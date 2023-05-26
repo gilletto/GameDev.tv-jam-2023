@@ -115,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
         }else if (collision.gameObject.CompareTag("Key"))
         {
             Destroy(collision.gameObject);
+            GameManager.Instance.TakeKey();
+
         }else if (collision.gameObject.CompareTag("Ground"))
         {
             Debug.Log("maxFallHeight " + _currentFallHeight);

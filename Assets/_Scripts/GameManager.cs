@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
 
     [SerializeField] int _deathCount;
+    [SerializeField] bool _hasKey;
+
+    public bool HasKey { get { return _hasKey; } }
+
+    private void Awake()
+    {
+        if(Instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         _deathCount = 0;
+        _hasKey = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeKey()
     {
-        
+        _hasKey = true;
     }
+
 }
