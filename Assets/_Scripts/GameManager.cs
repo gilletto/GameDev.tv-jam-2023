@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool _hasKey;
     [SerializeField] Vector3 _startPosition;
     [SerializeField] Transform _player;
+    [SerializeField] GemSpawner _gemSpawner;
 
     public bool HasKey { get { return _hasKey; } }
 
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
         _deathCount = 0;
         _hasKey = false;
         _startPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        _gemSpawner.GenerateGems();
+
     }
 
     public void TakeKey()
