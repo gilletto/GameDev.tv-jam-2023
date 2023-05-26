@@ -1364,6 +1364,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1173431012}
+  - component: {fileID: 1173431013}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1386,6 +1387,22 @@ Transform:
   m_Father: {fileID: 1572445256}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1173431013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173431011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db7c00fd5f9cb974e85a93b84f593181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deathCount: 0
+  _hasKey: 0
+  _startPosition: {x: 0, y: 0, z: 0}
+  _player: {fileID: 0}
 --- !u!1001 &1203196558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2222,7 +2239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2972913703783235495, guid: 579e7b2ed18fa614abe1afd39a8c8379, type: 3}
       propertyPath: _maxFallHeight
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2972913703783235497, guid: 579e7b2ed18fa614abe1afd39a8c8379, type: 3}
       propertyPath: m_Name
@@ -2361,7 +2378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7853236241762531434, guid: 657fbd34ae227b5409ce5183e1ccf788, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.7
+      value: 43.8
       objectReference: {fileID: 0}
     - target: {fileID: 7853236241762531434, guid: 657fbd34ae227b5409ce5183e1ccf788, type: 3}
       propertyPath: m_LocalPosition.y

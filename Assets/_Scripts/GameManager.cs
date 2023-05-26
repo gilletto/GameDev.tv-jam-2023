@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int _deathCount;
     [SerializeField] bool _hasKey;
+    [SerializeField] Vector3 _startPosition;
+    [SerializeField] Transform _player;
 
     public bool HasKey { get { return _hasKey; } }
 
@@ -27,11 +29,19 @@ public class GameManager : MonoBehaviour
     {
         _deathCount = 0;
         _hasKey = false;
+        _startPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
     }
 
     public void TakeKey()
     {
         _hasKey = true;
+    }
+
+    public void Restart()
+    {
+        _deathCount = 0;
+        _hasKey = false;
+        _player.position = _startPosition;
     }
 
 }

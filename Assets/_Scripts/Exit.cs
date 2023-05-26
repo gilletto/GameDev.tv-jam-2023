@@ -20,8 +20,18 @@ public class Exit : MonoBehaviour
     {
         Debug.Log("Enter exit trigger");
 
-        // if key is active go to next level
-        // else show info text
+        if (GameManager.Instance.HasKey)
+        {
+
+            Debug.Log("Congratulations! You have completed the level!!!");
+            GameManager.Instance.Restart();
+            // play end level sound
+            // show ui final level
+            // change level
+            // restart game manager
+        }
+
+      
 
     }
 }
