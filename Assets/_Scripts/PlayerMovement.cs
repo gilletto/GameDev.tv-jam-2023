@@ -119,11 +119,12 @@ public class PlayerMovement : MonoBehaviour
 
         }else if (collision.gameObject.CompareTag("Ground"))
         {
-            Debug.Log("maxFallHeight " + _currentFallHeight);
+            Debug.Log("Current Fall height " + _currentFallHeight);
 
             if (_currentFallHeight < -_maxFallHeight)
             {
                 ChangeDimension("ghost");
+                _currentFallHeight = 0;
             }
 
             

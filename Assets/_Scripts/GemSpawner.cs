@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GemSpawner : MonoBehaviour
 {
-    private Collider2D _shapeCollider;
     [SerializeField] Transform _gems;
     [SerializeField] bool _hasGems = false;
     private GameObject[] _platformsList;
