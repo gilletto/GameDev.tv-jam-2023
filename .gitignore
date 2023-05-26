@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /[Aa]ssets/_AKTools/
 Assets/_AKTools.meta
+Assets/Plugins.meta
+Assets/Plugins/
