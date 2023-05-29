@@ -153,7 +153,9 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("Player onEnterTrigger");
         if (collision.gameObject.CompareTag("LifeEssence") && _shapeType == DimensionType.Ghost)
         {
+            
             _life_essence++;
+            GameManager.Instance.IncreaseGem();
             --_life_essence_to_respawn;
 
             /* è più leggero come controllo rispetto a fare % 3
@@ -188,12 +190,13 @@ public class PlayerMovement : MonoBehaviour
                 
                 break;
             case DimensionType.Ghost:
+
                 _rb.gravityScale = 0;
                 _rb.isKinematic = true;
                 _humanShape.SetActive(false);
                 _ghostShape.SetActive(true);
                 _speed = GHOST_SPEED;
-
+                GameManager.Instance.IncreaseDeath();
                 break;
         }
         
