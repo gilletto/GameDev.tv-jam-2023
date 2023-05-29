@@ -13,11 +13,15 @@ public class Exit : MonoBehaviour
         {
 
             Debug.Log("Congratulations! You have completed the level!!!");
-            GameManager.Instance.Restart();
+            GameManager.Instance.NextLevel();
             // play end level sound
             // show ui final level
             // change level
             // restart game manager
+        }
+        else
+        {
+            Debug.Log("You don't have key");
         }
 
       
