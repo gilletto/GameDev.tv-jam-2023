@@ -78,9 +78,7 @@ public class GameManager : MonoBehaviour
         Restart();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex  + 1);
-        _uimanager.UpdateLevel(scene.buildIndex + 1);
-
-        
+        _uimanager.UpdateLevel(scene.buildIndex + 1); 
     }
 
 }
