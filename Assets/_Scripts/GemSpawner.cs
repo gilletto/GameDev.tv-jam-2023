@@ -6,19 +6,20 @@ public class GemSpawner : MonoBehaviour
 {
     [SerializeField] Transform _gems;
     [SerializeField] bool _hasGems = false;
-    private GameObject[] _platformsList;
+    private Platform[] _platformsList;
 
     private void Awake()
     {
-        _platformsList = GameObject.FindGameObjectsWithTag("Ground");
-        _hasGems = false;
+        _platformsList = FindObjectsOfType<Platform>();
     }
 
     public void GenerateGems()
     {
-        foreach (GameObject platform in _platformsList)
+        
+        foreach (Platform platform in _platformsList)
         {
-            Collider2D _shapeCollider = platform.GetComponent<Collider2D>();
+            if (!platform.Gem) continue;
+            Collider2D _shapeCollider = platform.gameObject.GetComponent<Collider2D>();
             float posX = Random.Range(_shapeCollider.bounds.min.x, _shapeCollider.bounds.max.x);
             Vector2 newPos = new Vector2(posX, _shapeCollider.bounds.max.y + 2);
             Instantiate(_gems, newPos, transform.rotation);

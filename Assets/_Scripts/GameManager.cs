@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GemSpawner _gemSpawner;
     [SerializeField] int _gems;
     [SerializeField] UIManager _uimanager;
+    [SerializeField] LevelManager _levelManager;
 
     public bool HasKey { get { return _hasKey; } }
 
@@ -32,14 +34,20 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
+
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Game manager start");
         _deaths = 0;
         _gems = 0;
         _hasKey = false;
         _startPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
         _gemSpawner.GenerateGems();
+        _uimanager.UpdateDeaths(_deaths);
+        _uimanager.UpdateGems(_gems);
+        _levelManager.Init();
 
     }
 
@@ -55,6 +63,7 @@ public class GameManager : MonoBehaviour
         _gems = 0;
         _hasKey = false;
         _player.position = _startPosition;
+        _gemSpawner.GenerateGems();
     }
 
     public void IncreaseDeath()
@@ -74,11 +83,22 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-
-        Restart();
+        /* TODO: 
+         * Add level complete percentage or star
+         * Add transition and loading screen
+         * setup of new level variables
+         */
+        CheckLevelCompletion();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex  + 1);
+        Restart();
         _uimanager.UpdateLevel(scene.buildIndex + 1); 
     }
 
+    private void CheckLevelCompletion()
+    {
+        int stars = 0;
+        if (_deaths <= MAX_LEVEL_DEATH) { stars++; }
+        if(_gems <= 3) { stars++; }
+    }
 }
