@@ -91,8 +91,9 @@ public class GameManager : MonoBehaviour
         CheckLevelCompletion();
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex  + 1);
+        
+        _uimanager.UpdateLevel(scene.buildIndex + 1);
         Restart();
-        _uimanager.UpdateLevel(scene.buildIndex + 1); 
     }
 
     private void CheckLevelCompletion()
