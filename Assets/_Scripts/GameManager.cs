@@ -14,15 +14,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool _hasKey;
     [SerializeField] Vector3 _startPosition;
     [SerializeField] Transform _player;
-    [SerializeField] GemSpawner _gemSpawner;
     [SerializeField] int _gems;
     [SerializeField] UIManager _uimanager;
-    [SerializeField] LevelManager _levelManager;
 
     public bool HasKey { get { return _hasKey; } }
 
     private void Awake()
     {
+         
+
         if(Instance != null)
         {
             Destroy(gameObject);
@@ -33,22 +33,50 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
     }
 
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+
+    // called second
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+
+        _startPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        _deaths = 0;
+        _gems = 0;
+        _hasKey = false;
+    }
+
+
+     // called when the game is terminated
+    void OnDisable()
+    {
+        Debug.Log("OnDisable");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+     // called when the game is terminated
+    void OnDestroy()
+    {
+        Debug.Log("OnDestroy");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Game manager start");
-        _deaths = 0;
-        _gems = 0;
-        _hasKey = false;
-        _startPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
-        _gemSpawner.GenerateGems();
+       
+        
         _uimanager.UpdateDeaths(_deaths);
         _uimanager.UpdateGems(_gems);
-        _levelManager.Init();
-
+        _uimanager.UpdateLevel(1);
     }
 
     public void TakeKey()
@@ -59,21 +87,18 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        Debug.Log("Restart level");
         _deaths = 0;
         _gems = 0;
         _hasKey = false;
         _player.position = _startPosition;
-        _gemSpawner.GenerateGems();
+
     }
 
     public void IncreaseDeath()
     {
         _deaths++;
         _uimanager.UpdateDeaths(_deaths);
-        if (_deaths > MAX_LEVEL_DEATH)
-        {
-
-        }
     }
     public void IncreaseGem()
     {
@@ -89,11 +114,30 @@ public class GameManager : MonoBehaviour
          * setup of new level variables
          */
         CheckLevelCompletion();
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.buildIndex  + 1);
+        StartCoroutine(LoadSceneAsync());
         
-        _uimanager.UpdateLevel(scene.buildIndex + 1);
-        Restart();
+        
+        
+    }
+
+    IEnumerator LoadSceneAsync()
+    {
+        yield return null;
+        
+        Scene scene = SceneManager.GetActiveScene();
+
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(scene.buildIndex + 1);
+        asyncOperation.allowSceneActivation = false;
+        while(!asyncOperation.isDone){
+
+            if(asyncOperation.progress >= 0.9f){
+                Restart();
+                _uimanager.UpdateLevel(2);
+                asyncOperation.allowSceneActivation = true;
+            }
+            yield return null;
+        }   
+        
     }
 
     private void CheckLevelCompletion()

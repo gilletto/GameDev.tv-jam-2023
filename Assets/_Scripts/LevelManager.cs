@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Level _currentLevel;
     Dictionary<int, Level> levelDictionary;
 
+    
+
 
     void Awake()
     {
